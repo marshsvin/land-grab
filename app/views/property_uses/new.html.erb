@@ -1,0 +1,46 @@
+<!-- Validation failure messages -->
+<% if @property_use.errors.any? %>
+  <% @property_use.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Property Use</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_property_use" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for activity_id -->
+      <div class="form-group">
+        <label for="activity_id" class="control-label">
+          Activity
+        </label>
+
+        <input type="text" id="activity_id" name="activity_id" placeholder="Activity" class="form-control" value="<%= @property_use.activity_id %>">
+      </div>
+
+      <!-- Label and input for property_id -->
+      <div class="form-group">
+        <label for="property_id" class="control-label">
+          Property
+        </label>
+
+        <input type="text" id="property_id" name="property_id" placeholder="Property" class="form-control" value="<%= @property_use.property_id %>">
+      </div>
+
+      <button class="btn btn-success">
+        Create Property Use
+      </button>
+      or
+      <a href="/property_uses">Cancel</a>
+    </form>
+  </div>
+</div>

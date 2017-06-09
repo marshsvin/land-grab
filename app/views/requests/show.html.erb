@@ -1,0 +1,45 @@
+<div class="page-header">
+  <h3>Request for Property - <%= @request.property.property_name %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <dt>Property</dt>
+      <dd><%= @request.property.property_name %></dd>
+
+      <dt>Start date</dt>
+      <dd><%= @request.start_date %></dd>
+
+      <dt>End date</dt>
+      <dd><%= @request.end_date %></dd>
+
+      <dt>User</dt>
+      <dd><%= @request.user_id %></dd>
+
+      <dt>Request Status</dt>
+      <dd><% if @request.acceptance == nil %>
+        Pending owner approval
+        <% else %>
+        Approved by land owner
+        <% end %>
+
+      </dd>
+
+
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/properties/<%= @request.property.id %>" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/requests/<%= @request.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_request/<%= @request.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>

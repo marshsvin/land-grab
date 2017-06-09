@@ -1,0 +1,194 @@
+<div class="page-header">
+  <h3>Property Name - <%= @property.property_name %></h3>
+</div>
+
+<% @property.pictures.each do |pic| %>
+  <img src="<%= pic.image %>" class = "img-responsive">
+<% end %>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_picture" method="post" enctype="multipart/form-data">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for image -->
+      <div class="form-group">
+        <label for="image" class="control-label">
+          Add Another Image
+        </label>
+
+        <input type="file" id="image" name="image" class="form-control" ">
+      </div>
+
+      <!-- Label and input for property_id -->
+      <div class="form-group">
+        <input type="hidden" id="property_id" name="property_id" placeholder="Property" class="form-control" value="<%= @property.id %>">
+      </div>
+
+      <button class="btn btn-success">
+        Create Picture
+      </button>
+      or
+      <a href="/properties">Cancel</a>
+    </form>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <!-- <dt>User</dt>
+      <dd><%#= @property.user_id %></dd> -->
+
+      <!-- <dt>Property Name</dt>
+      <dd><%#= @property.property_name %></dd> -->
+
+      <dt>Address</dt>
+      <dd><%= @property.address %></dd>
+
+      <dt>Zip code</dt>
+      <dd><%= @property.zip_code %></dd>
+
+      <dt>State</dt>
+      <dd><%= @property.state %></dd>
+
+      <dt>City</dt>
+      <dd><%= @property.city %></dd>
+
+      <dt>Acreage</dt>
+      <dd><%= @property.acreage %></dd>
+
+      <dt>Description</dt>
+      <dd><%= @property.description %></dd>
+
+      <dt>Price</dt>
+      <dd>$<%= @property.price %>/night</dd>
+
+      <dt>Activities</dt>
+      <dd>
+      <% @property.activities.each do |activity| %>
+          <%= activity.name %>
+          <% end %>
+      </dd>
+
+      <dt>Property Reviews</dt>
+      <dd>
+          <% @property.property_reviews.each do |review|  %>
+          <dd>"<%= review.content %>"</dd>
+        <% end  %>
+      </dd>
+
+      <dt>Property Location</dt>
+      <dd>
+      <style>
+      #map {
+        width: 500px;
+        height: 400px;
+      }
+      </style>
+      </head>
+      <body>
+        <div id="map"></div>
+        <script>
+        function initMap() {
+          var mapDiv = document.getElementById('map');
+          var map = new google.maps.Map(mapDiv, {
+            center: {lat: <%= @property.latitude %>, lng: <%= @property.longitude %>},
+            zoom: 8
+          });
+
+          var infowindow = new google.maps.InfoWindow({
+            content: "<%= @property.description %>"
+          });
+
+          var marker = new google.maps.Marker({
+            position: {lat: <%= @property.latitude %>, lng: <%= @property.longitude %>},
+            map: map,
+            title: '<%= @property.property_name %>',
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+          });
+
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+
+        };
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+
+
+    </dl>
+
+    <li class="list-group-item list-group-item-success">
+            Add a new activity
+    </li>
+
+            <form action="/create_property_use" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+              <input name="property_id" type="hidden" value="<%= @property.id %>">
+
+              <div class="form-group">
+                <label for="activity_id" class="control-label">
+                  Activity
+                </label>
+                <%= select_tag(:activity_id, options_from_collection_for_select(Activity.all, :id, :name), :class => "form-control") %>
+
+              </div>
+              <button class="btn btn-success">
+                              Add Activity to Property
+              </button>
+              </form>
+
+              <li class="list-group-item list-group-item-success">
+                      Leave a Review
+              </li>
+
+                      <form action="/create_property_review" method="post">
+                        <!-- Hidden input for authenticity token to protect from forgery -->
+                        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+                        <input name="property_id" type="hidden" value="<%= @property.id %>">
+
+                        <div class="form-group">
+                          <label for="content" class="control-label">
+                            Leave a Review for this Property
+                          </label>
+
+                          <input type="text" id="content" name="content" placeholder="Content" class="form-control" >
+
+                        </div>
+                        <button class="btn btn-success">
+                                        Post Review
+                        </button>
+                        </form>
+
+
+
+
+    <div class="btn-group btn-group-justified">
+      <% if @property.user_id == current_user.id %>
+      <a href="/properties" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/properties/<%= @property.id %>/edit" class="btn btn-warning">
+        Edit My Listing
+      </a>
+      <a href="/delete_property/<%= @property.id %>" class="btn btn-danger" rel="nofollow">
+        Delete My Property
+      </a>
+
+      <% else  %>
+      <a href="/requests/new?property_id=<%= @property.id %>" class="btn btn-primary">Book This Property</a>
+      <a href="/properties" class="btn btn-warning">
+        Back to Listings
+      </a>
+
+      <% end  %>
+    </div>
+  </div>
+</div>

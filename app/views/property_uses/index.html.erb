@@ -1,0 +1,30 @@
+<div class="page-header">
+  <h1>
+    Property uses
+    <a href="/property_uses/new" class="btn btn-lg btn-success">New Property use</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Activity</th>
+        <th>Property</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @property_uses.each do |property_use| %>
+      <tr>
+        <td><%= property_use.activity_id %></td>
+        <td><%= property_use.property_id %></td>
+        <td>
+          <a href="/property_uses/<%= property_use.id %>" class="btn btn-primary">Show</a>
+          <a href="/property_uses/<%= property_use.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_property_use/<%= property_use.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

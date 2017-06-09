@@ -1,0 +1,97 @@
+<div class="page-header">
+  <h1>
+    Reservations Center
+  </h1>
+</div>
+
+<h2>
+  My Reservations
+</h2>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Property</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Booking Status</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @my_requests.each do |request| %>
+      <tr>
+        <td><%= request.property.property_name %></td>
+        <td><%= request.start_date %></td>
+        <td><%= request.end_date %></td>
+        <td><% if request.acceptance == nil %>
+          Pending Owner Approval
+          <% else %>
+          Approved
+          <% end  %>
+        </td>
+        <td>
+          <a href="/requests/<%= request.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_request/<%= request.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+
+<h2>
+  Requests for My Property
+</h2>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Property</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>User Requesting</th>
+        <th>Booking Status</th>
+        <th>Actions</th>
+      </tr>
+
+
+
+
+
+
+
+      <% Property.all.each do |property| %>
+        <% if property.user_id == current_user.id %>
+        <% Request.all.each do |request| %>
+          <% if property.id == request.property_id %>
+
+      <tr>
+        <td><%= request.property.property_name %></td>
+        <td><%= request.start_date %></td>
+        <td><%= request.end_date %></td>
+        <td><%= request.user.email %></td>
+        <td><% if request.acceptance == nil %>
+          Pending Your Approval
+          <% else  %>
+          Approved
+          <% end  %>
+        </td>
+
+
+        <td>
+          <a href="/requests/<%= request.id %>/edit" class="btn btn-primary">Approve Request</a>
+          <a href="/delete_request/<%= request.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+
+      </tr>
+      <% end %>
+      <% end %>
+      <% end %>
+      <% end %>
+    </table>
+
+  </div>
+</div>
