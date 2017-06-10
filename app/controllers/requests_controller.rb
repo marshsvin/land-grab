@@ -13,9 +13,10 @@ class RequestsController < ApplicationController
 
   def my_requests
 
-    @my_requests = Request.where(:user_id => current_user)
 
-  
+    my_property = Property.where(:user_id => current_user)
+    @my_requests = Request.where(:user_id => current_user)
+    @my_property_requests = Request.where(:property_id => my_property.ids)
 
 
 
