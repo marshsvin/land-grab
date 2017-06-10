@@ -55,6 +55,13 @@
       </div>
       <% end %>
 
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <input type="hidden" id="user_id" name="user_id" class="form-control" value="<%= @request.user_id %>">
+      </div>
 
       <button class="btn btn-warning">
         Update Request
